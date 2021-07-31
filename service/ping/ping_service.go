@@ -1,4 +1,4 @@
-package service
+package PingService
 
 
 func Ping() string{
