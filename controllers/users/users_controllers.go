@@ -5,6 +5,8 @@ import(
 	"github.com/MohamedBenIsmaiel/bookStore-userApi.git/util/error"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
+	"fmt"
 )
 
 func CreateUser(c *gin.Context){
@@ -14,7 +16,7 @@ func CreateUser(c *gin.Context){
 		c.JSON(http.StatusBadRequest,Error.NewBadRequest("Invalid Json"))
 		return
 	}
-	result, saveError := UsersService.CreateUser(user)
+	result, saveError := UsersService.CreateUser(&user)
 	if saveError != nil{
 		c.JSON(saveError.Code,saveError)
 		return
@@ -24,5 +26,15 @@ func CreateUser(c *gin.Context){
 }
 
 func GetUser(c *gin.Context){
-	c.String(http.StatusNotImplemented, UsersService.GetUser())
+	userId, userIdErr := strconv.ParseInt(c.Param("userId"),10,64)
+	if userIdErr != nil {
+		c.JSON(http.StatusBadRequest, Error.NewBadRequest(fmt.Sprintf("Invalid user id %s", c.Param("userId"))))
+		return
+	}
+	result, userErr := UsersService.GetUser(userId)
+	if userErr != nil{
+		c.JSON(userErr.Code,userErr)
+		return
+	}
+	c.JSON(http.StatusOK, result)
 }

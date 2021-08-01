@@ -27,3 +27,15 @@ func (user *User)Save() *Error.RestError{
 	return nil
 
 }
+
+func(user *User)GetUser() *Error.RestError{
+	if users[user.Id] == nil{
+		return Error.NewNotFound(fmt.Sprintf("User with id %d is not found",user.Id))
+	}
+	//user.Id = users[user.Id].Id
+	user.FirstName = users[user.Id].FirstName
+	user.LastName = users[user.Id].LastName
+	user.Email = users[user.Id].Email
+	user.Password = users[user.Id].Password
+	return nil
+}

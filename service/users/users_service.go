@@ -4,7 +4,7 @@ import(
 	"github.com/MohamedBenIsmaiel/bookStore-userApi.git/util/error"
 )
 
-func CreateUser(user UserDomain.User)(*UserDomain.User, *Error.RestError){
+func CreateUser(user *UserDomain.User)(*UserDomain.User, *Error.RestError){
 	if err:= user.Validate(); err != nil{
 		return nil, err
 	}
@@ -13,9 +13,15 @@ func CreateUser(user UserDomain.User)(*UserDomain.User, *Error.RestError){
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }
 
-func GetUser() string{
-	return "implement me !"
+func GetUser(userId int64) (*UserDomain.User, *Error.RestError){
+	user := &UserDomain.User{}
+	user.Id = userId
+	err := user.GetUser()
+	if err != nil {
+		return nil,err
+	}
+	return user,nil
 }
