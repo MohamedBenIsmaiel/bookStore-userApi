@@ -5,8 +5,6 @@ import(
 	"github.com/MohamedBenIsmaiel/bookStore-userApi.git/util/error"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	_"io/ioutil"
-	_"encoding/json"
 )
 
 func CreateUser(c *gin.Context){
@@ -19,6 +17,7 @@ func CreateUser(c *gin.Context){
 	result, saveError := UsersService.CreateUser(user)
 	if saveError != nil{
 		c.JSON(saveError.Code,saveError)
+		return
 	}
 	c.JSON(http.StatusCreated, result)
 
