@@ -17,10 +17,10 @@ func (user *User)Save() *Error.RestError{
 	if users[user.Id] != nil{
 		if users[user.Id].Email == user.Email{
 			err := Error.NewBadRequest(fmt.Sprintf("This User With Email %s exist",user.Email))
-			return &err
+			return err
 		}
 		err := Error.NewBadRequest(fmt.Sprintf("This User with id %d exist",user.Id))
-		return &err
+		return err
 	}
 
 	users[user.Id] = user
